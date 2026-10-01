@@ -3,6 +3,7 @@ enum Side {
 }
 
 struct Order {
+    id : u64,
     symbol : String, 
     side : Side, 
     quantity : u32,
@@ -11,6 +12,7 @@ struct Order {
 
 fn main(){
     let order = Order {
+        id : 1,
         symbol : "AAPL".to_string(),
         side : Side::Buy,
         quantity : 10,
@@ -35,6 +37,6 @@ impl Order {
         return order_val;
     }
     fn is_valid(&self) -> bool {
-        self.quantity > 0 && self.price_cents > 0;
+        self.quantity > 0 && self.price_cents > 0
     }
 }
