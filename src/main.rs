@@ -28,11 +28,12 @@ fn main(){
 
     println!("Symbol: {} {} {} {}", side_text, order.quantity, order.symbol, order.price_cents);
     println!("At price: {} cents", order_val);
-    println!("Is valid {} {}", isValid, id);
 
     let mut orders : Vec<Order> = Vec::new();
     orders.push(order);
-    println!("orders : {}", orders);
+    for currOrder in orders {
+        println!("{}", currOrder);
+    }
 }
 
 impl Order {
