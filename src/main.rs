@@ -35,9 +35,6 @@ impl Order {
         return order_val;
     }
     fn is_valid(&self) -> bool {
-        if(self.quantity <= 0){
-            return false;
-        }
-        return true;
+        self.quantity > 0 && self.price_cents > 0;
     }
 }
