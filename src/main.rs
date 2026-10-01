@@ -14,19 +14,30 @@ fn main(){
         symbol : "AAPL".to_string(),
         side : Side::Buy,
         quantity : 10,
-        price_cents: 15000
+        price_cents: 150000
     };
     let side_text = match order.side {
         Side::Buy => "BUY",
         Side::Sell => "SELL"
     };
-    let order_val = u64::from(order.quantity) * order.price_cents;
+    let order_val = order.value_cents();
+    let isValid = order.is_valid();
 
 
     println!("Symbol: {} {} {} {}", side_text, order.quantity, order.symbol, order.price_cents);
     println!("At price: {} cents", order_val);
+    println!("Is valid {}", isValid);
 }
 
 impl Order {
-    fn 
+    fn value_cents(&self) -> u64 {
+        let order_val = u64::from(self.quantity) * self.price_cents;
+        return order_val;
+    }
+    fn is_valid(&self) -> bool {
+        if(self.quantity <= 0){
+            return false;
+        }
+        return true;
+    }
 }
