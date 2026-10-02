@@ -21,7 +21,7 @@ fn main(){
     };
 
     //sell order
-    let sellOrder = Order {
+    let sell_order = Order {
         id : 2,
         symbol : "AAPL".to_string(),
         side : Side::Sell,
@@ -31,14 +31,15 @@ fn main(){
 
     let mut orders : Vec<Order> = Vec::new();
     orders.push(order);
-    orders.push(sellOrder);
-    for currOrder in &orders {
-        let side_text = match currOrder.side{
-            Side::BUY => "BUY",
-            Side::SELL => "SELL"
-        }
-        let currOrderQunat = currOrder.value_cents();
-        println!("Order {}, shares {} with quantity {}, to {} with quant {}", currOrder.id, currOrder.symbol, currOrder.quantity, currOrder.side, currOrderQunat);
+    orders.push(sell_order);
+    for curr_order in &orders {
+        let side_text = match curr_order.side {
+            Side::Buy => "BUY",
+            Side::Sell => "SELL",
+        };
+        let curr_order_qunat = curr_order.value_cents();
+        
+        println!("Order {}, shares {} with quantity {}, to {} with quant {}", curr_order.id, curr_order.symbol, curr_order.quantity, side_text, curr_order_qunat);
     };
 }
 
