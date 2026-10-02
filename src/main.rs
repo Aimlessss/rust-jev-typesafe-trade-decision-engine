@@ -11,6 +11,7 @@ struct Order {
 }
 
 fn main(){
+    //buy order
     let order = Order {
         id : 1,
         symbol : "AAPL".to_string(),
@@ -18,6 +19,17 @@ fn main(){
         quantity : 10,
         price_cents: 150000
     };
+
+    //sell order
+    let sellOrder = Order {
+        id : 2,
+        symbol : "AAPL".to_string(),
+        side : Side::Sell,
+        quantity : 10,
+        price_cents : 150000
+    }
+
+
     let side_text = match order.side {
         Side::Buy => "BUY",
         Side::Sell => "SELL"
@@ -31,9 +43,10 @@ fn main(){
 
     let mut orders : Vec<Order> = Vec::new();
     orders.push(order);
-    for currOrder in orders {
-        println!("{}", currOrder.id);
-    }
+    orders.push(sellOrder);
+    for currOrder in &orders {
+        println!("Order {}, shares {} with quantity {}, to {}", currOrder.id, currOrder.symbol, currOrder.quantity, currOrder.side);
+    };
 }
 
 impl Order {
