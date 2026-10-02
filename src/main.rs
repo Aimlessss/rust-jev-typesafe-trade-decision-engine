@@ -27,25 +27,18 @@ fn main(){
         side : Side::Sell,
         quantity : 10,
         price_cents : 150000
-    }
-
-
-    let side_text = match order.side {
-        Side::Buy => "BUY",
-        Side::Sell => "SELL"
     };
-    let order_val = order.value_cents();
-    let isValid = order.is_valid();
-
-
-    println!("Symbol: {} {} {} {}", side_text, order.quantity, order.symbol, order.price_cents);
-    println!("At price: {} cents", order_val);
 
     let mut orders : Vec<Order> = Vec::new();
     orders.push(order);
     orders.push(sellOrder);
     for currOrder in &orders {
-        println!("Order {}, shares {} with quantity {}, to {}", currOrder.id, currOrder.symbol, currOrder.quantity, currOrder.side);
+        let side_text = match currOrder.side{
+            Side::BUY => "BUY",
+            Side::SELL => "SELL"
+        }
+        let currOrderQunat = currOrder.value_cents();
+        println!("Order {}, shares {} with quantity {}, to {} with quant {}", currOrder.id, currOrder.symbol, currOrder.quantity, currOrder.side, currOrderQunat);
     };
 }
 
