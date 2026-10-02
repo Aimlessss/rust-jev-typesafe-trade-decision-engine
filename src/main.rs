@@ -32,7 +32,7 @@ fn main(){
     let mut orders : Vec<Order> = Vec::new();
     orders.push(order);
     for currOrder in orders {
-        println!("{}", currOrder);
+        println!("{}", currOrder.id);
     }
 }
 
