@@ -19,7 +19,7 @@ fn main(){
         id : 1,
         symbol : "AAPL".to_string(),
         side : Side::Buy,
-        quantity : 0,
+        quantity : 10,
         price_cents: 150000
     };
 
@@ -38,8 +38,8 @@ fn main(){
     let order_accepted = book.add_order(order);
     let order_accepted_sell = book.add_order(sell_order);
 
-    let canc_order = bool.canc_order(2);
-
+    let canc_order = book.canc_order(2);
+    let canc_order1 = book.canc_order(1);
     println!(" orders {}, {}", order_accepted, order_accepted_sell);
 
     for curr_order in &book.orders {
@@ -79,10 +79,10 @@ impl OrderBook {
         return true;
     }
 
-    fn canc_order(&mut self, id) -> bool {
-        for all_orders in &self.orders{
-            if id == all_orders.id {
-                //delete <- idk how to delete from vec
+    fn canc_order(&mut self, id : u64) -> bool {
+        for index in 0..self.orders.len() {
+            if self.orders[index].id == id {
+                self.orders.remove(index);
                 return true;
             }
         }
