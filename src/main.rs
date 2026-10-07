@@ -64,7 +64,7 @@ impl Order {
 
 
 impl OrderBook { 
-    fn add_order(&self, order : Order) -> bool {
+    fn add_order(&mut self, order : Order) -> bool {
         if !order.is_valid() {
             return false;
         }
