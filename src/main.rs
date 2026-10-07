@@ -34,8 +34,12 @@ fn main(){
     let mut book = OrderBook {
         orders: Vec::new(),
     };
-    book.orders.push(order);
-    book.orders.push(sell_order);
+
+    let order_accepted = book.add_order(order);
+    let order_accepted_sell = book.add_order(sell_order);
+
+    println!(" orders {}, {}", order_accepted, order_accepted_sell);
+
     for curr_order in &book.orders {
         let side_text = match curr_order.side {
             Side::Buy => "BUY",
@@ -45,6 +49,7 @@ fn main(){
         
         println!("Order {}, shares {} with quantity {}, to {} with quant {}, is true{}", curr_order.id, curr_order.symbol, curr_order.quantity, side_text, curr_order_qunat, curr_order.is_valid());
     };
+    println!("lenght {}", book.orders.len());
 }
 
 impl Order {
@@ -54,5 +59,16 @@ impl Order {
     }
     fn is_valid(&self) -> bool {
         self.quantity > 0 && self.price_cents > 0
+    }
+}
+
+
+impl OrderBook { 
+    fn add_order(&self, order : Order) -> bool {
+        if !order.is_valid() {
+            return false;
+        }
+        self.orders.push(order);
+        return true;
     }
 }
