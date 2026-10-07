@@ -31,18 +31,19 @@ fn main(){
         quantity : 10,
         price_cents : 150000
     };
-
-    let mut orders : OrderBook = Vec::new();
-    orders.push(order);
-    orders.push(sell_order);
-    for curr_order in &orders {
+    let mut book = OrderBook {
+        orders: Vec::new(),
+    };
+    book.orders.push(order);
+    book.orders.push(sell_order);
+    for curr_order in &book.orders {
         let side_text = match curr_order.side {
             Side::Buy => "BUY",
             Side::Sell => "SELL",
         };
         let curr_order_qunat = curr_order.value_cents();
         
-        println!("Order {}, shares {} with quantity {}, to {} with quant {}", curr_order.id, curr_order.symbol, curr_order.quantity, side_text, curr_order_qunat);
+        println!("Order {}, shares {} with quantity {}, to {} with quant {}, is true{}", curr_order.id, curr_order.symbol, curr_order.quantity, side_text, curr_order_qunat, curr_order.is_valid());
     };
 }
 
