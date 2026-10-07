@@ -19,13 +19,13 @@ fn main(){
         id : 1,
         symbol : "AAPL".to_string(),
         side : Side::Buy,
-        quantity : 10,
+        quantity : 0,
         price_cents: 150000
     };
 
     //sell order
     let sell_order = Order {
-        id : 2,
+        id : 1,
         symbol : "AAPL".to_string(),
         side : Side::Sell,
         quantity : 10,
@@ -65,6 +65,12 @@ impl Order {
 
 impl OrderBook { 
     fn add_order(&mut self, order : Order) -> bool {
+
+        for exisiting_orders in &self.orders {
+            if order.id == exisiting_orders.id {
+                return false;
+            }
+        }
         if !order.is_valid() {
             return false;
         }
