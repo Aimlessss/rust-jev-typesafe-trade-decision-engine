@@ -25,7 +25,7 @@ fn main(){
 
     //sell order
     let sell_order = Order {
-        id : 1,
+        id : 2,
         symbol : "AAPL".to_string(),
         side : Side::Sell,
         quantity : 10,
@@ -37,6 +37,8 @@ fn main(){
 
     let order_accepted = book.add_order(order);
     let order_accepted_sell = book.add_order(sell_order);
+
+    let canc_order = bool.canc_order(2);
 
     println!(" orders {}, {}", order_accepted, order_accepted_sell);
 
@@ -75,5 +77,15 @@ impl OrderBook {
         }
         self.orders.push(order);
         return true;
+    }
+
+    fn canc_order(&mut self, id) -> bool {
+        for all_orders in &self.orders{
+            if id == all_orders.id {
+                //delete <- idk how to delete from vec
+                return true;
+            }
+        }
+        return false;
     }
 }
