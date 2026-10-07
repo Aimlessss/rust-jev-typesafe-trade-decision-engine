@@ -65,14 +65,13 @@ impl Order {
 
 impl OrderBook { 
     fn add_order(&mut self, order : Order) -> bool {
-
+        if !order.is_valid() {
+            return false;
+        }
         for exisiting_orders in &self.orders {
             if order.id == exisiting_orders.id {
                 return false;
             }
-        }
-        if !order.is_valid() {
-            return false;
         }
         self.orders.push(order);
         return true;
