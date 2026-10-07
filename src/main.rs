@@ -10,6 +10,9 @@ struct Order {
     price_cents : u64
 }
 
+struct OrderBook {
+    orders : Vec<Order>
+}
 fn main(){
     //buy order
     let order = Order {
@@ -29,7 +32,7 @@ fn main(){
         price_cents : 150000
     };
 
-    let mut orders : Vec<Order> = Vec::new();
+    let mut orders : OrderBook = Vec::new();
     orders.push(order);
     orders.push(sell_order);
     for curr_order in &orders {
