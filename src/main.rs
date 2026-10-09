@@ -41,14 +41,24 @@ fn main(){
         });
         handles.push(handle);
     }
-    let command = Command::CancelOrder(2);
-
+    let orderTemp = Order {
+        id : 1,
+        symbol : "AAPL".to_string(),
+        side : Side::Buy,
+        quantity : 10,
+        price_cents: 150000
+    };
+    let canc_order = Command::CancelOrder(2);
+    let add_orderrr = Command::AddOrder(orderTemp);
+    
     for handle in handles {
         let accepted = handle.join().unwrap();
         println!("Accepted: {}", accepted);
     }
     let guard = book.lock().unwrap();
     println!("Orders in book: {}", guard.orders.len());
+
+    println!("orders {}, {}", canc_order, add_orderrr);
 
 }
 
