@@ -1,3 +1,6 @@
+use std::sync::{Arc, Mutex};
+use std::thread;
+
 enum Side {
     Buy, Sell
 }
@@ -31,27 +34,36 @@ fn main(){
         quantity : 10,
         price_cents : 150000
     };
-    let mut book = OrderBook {
+    let book = Arc::new(Mutex::new(OrderBook {
         orders: Vec::new(),
-    };
+    }));
+    let mut handles = Vec::new();
+    for _ in 0..2 {
+        let shared_book = Arc::clone(&book);
+        let handle = thread::spawn(move || {
+            let order = Order {
+                id : 1,
+                symbol : "AAPL".to_string(),
+                side : Side::Buy,
+                quantity : 10,
+                price_cents: 150000
+            };
+            let accepted = {
+                let mut guard = shared_book.lock().unwrap();
+                guard.add_order(order);
+            };
+            return accepted;
+        });
+        handles.push(handle);
+    }
 
-    let order_accepted = book.add_order(order);
-    let order_accepted_sell = book.add_order(sell_order);
+    for handle in handles {
+        let accepted = handle.join().unwrap();
+        println!("Accepted: {}", accepted);
+    }
+    let guard = book.lock().unwrap();
+    println!("Orders in book: {}", guard.orders.len());
 
-    let canc_order = book.canc_order(2);
-    let canc_order1 = book.canc_order(1);
-    println!(" orders {}, {}", order_accepted, order_accepted_sell);
-
-    for curr_order in &book.orders {
-        let side_text = match curr_order.side {
-            Side::Buy => "BUY",
-            Side::Sell => "SELL",
-        };
-        let curr_order_qunat = curr_order.value_cents();
-        
-        println!("Order {}, shares {} with quantity {}, to {} with quant {}, is true{}", curr_order.id, curr_order.symbol, curr_order.quantity, side_text, curr_order_qunat, curr_order.is_valid());
-    };
-    println!("lenght {}", book.orders.len());
 }
 
 impl Order {
