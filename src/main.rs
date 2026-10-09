@@ -1,5 +1,7 @@
 use std::sync::{Arc, Mutex};
 use std::thread;
+mod queue_engine;
+use crate::queue_engine::Command;
 
 enum Side {
     Buy, Sell
@@ -17,23 +19,6 @@ struct OrderBook {
     orders : Vec<Order>
 }
 fn main(){
-    //buy order
-    let order = Order {
-        id : 1,
-        symbol : "AAPL".to_string(),
-        side : Side::Buy,
-        quantity : 10,
-        price_cents: 150000
-    };
-
-    //sell order
-    let sell_order = Order {
-        id : 2,
-        symbol : "AAPL".to_string(),
-        side : Side::Sell,
-        quantity : 10,
-        price_cents : 150000
-    };
     let book = Arc::new(Mutex::new(OrderBook {
         orders: Vec::new(),
     }));
@@ -50,12 +35,13 @@ fn main(){
             };
             let accepted = {
                 let mut guard = shared_book.lock().unwrap();
-                guard.add_order(order);
+                guard.add_order(order)
             };
             return accepted;
         });
         handles.push(handle);
     }
+    let command = Command::CancelOrder(2);
 
     for handle in handles {
         let accepted = handle.join().unwrap();
